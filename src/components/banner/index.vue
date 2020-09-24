@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 import Swiper from 'swiper'
 import 'swiper/css/swiper.min.css'
 import Vue from 'vue'

@@ -96,6 +96,7 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import Banner from '../../components/banner'
+import Scroll from "../../components/common/Scroll/Scroll"
 export default {
   name: 'Home',
   data() {
@@ -108,6 +109,7 @@ export default {
   components: {
     NavBar,
     Banner,
+    Scroll
   },
   async mounted() {
     const result = await this.$API.home.getMultidata()
