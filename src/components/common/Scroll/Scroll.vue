@@ -1,6 +1,6 @@
 <template>
   <!-- 可以滚动的区域 -->
-  <div class="wrapper" :style="style" ref="wrapper">
+  <div class="wrapper" :style="pattern" ref="wrapper">
     <!-- 整个内容 -->
       <div class="content">
       <slot></slot>
@@ -61,16 +61,16 @@
         default: 20
       },
       /** * 控制父容器高度 */
-      style: {
+      pattern: {
         type: Object,
-        default: {bottom: '49px'}
+        default: () => {bottom: '49px'}
       }
     },
     mounted() {
       // 保证在DOM渲染完毕后初始化better-scroll
       setTimeout(() => {
         this._initScroll()
-      }, 20)
+      }, 2000)
     },
     methods: {
       _initScroll() {
