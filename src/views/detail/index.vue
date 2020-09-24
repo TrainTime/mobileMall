@@ -1,26 +1,28 @@
 <template>
   <div>
     <nav-bar class="detail-nav"><div slot="center">商品详情</div></nav-bar>
+    <div class="back" @click="backPre">
+      <img src="~assets/images/common/back.png" alt="" />
+    </div>
     <div class="detail-content">
-      <div class="swiper">
-        <img
-          src="//s11.mogucdn.com/mlcdn/c45406/180806_05ed3a9ag44hadj1jcl7g4jf844g5_640x960.jpg"
-          alt=""
-        />
+      <div class="swiper" v-if="this.detailInfo.itemInfo">
+        <img :src="this.detailInfo.itemInfo.topImages[0]" />
       </div>
-      <div class="info">
-        <span class="title"
-          >外套男春秋季韩版潮流学生修身夹克上衣男士青少年大码帅气棒球服</span
-        >
+      <div class="goods-info" v-if="this.detailInfo.itemInfo">
+        <span class="title">{{ this.detailInfo.itemInfo.title }}</span>
         <div class="price">
-          <span class="new-price">¥128.00</span>
-          <del class="old-price">¥214.00</del>
-          <span class="discount">新品促销</span>
+          <span class="new-price"
+            >¥{{ this.detailInfo.itemInfo.highNowPrice }}</span
+          >
+          <del class="old-price">¥{{ this.detailInfo.itemInfo.highPrice }}</del>
+          <span class="discount">{{
+            this.detailInfo.itemInfo.discountDesc
+          }}</span>
         </div>
         <div class="sell">
-          <span>销量 1561</span>
-          <span>收藏37人</span>
-          <span>默认快递</span>
+          <span v-for="(column, index) in detailInfo.columns" :key="index">{{
+            column
+          }}</span>
         </div>
         <div class="service">
           <span>
@@ -45,6 +47,15 @@
             />72小时发货</span
           >
         </div>
+      </div>
+      <div class="content" v-if="detailImg.list">
+        <img :src="detailImg.list[1]" />
+        <img :src="detailImg.list[2]" />
+        <img :src="detailImg.list[3]" />
+      </div>
+      <div class="recommend">
+        <div class="title">商品推荐</div>
+        <GoodsInfo :goodsInfo="goodsInfo"></GoodsInfo>
       </div>
     </div>
     <div class="detail-bar">
@@ -72,25 +83,63 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import GoodsInfo from "components/goodsInfo/GoodsInfo";
 export default {
   name: "Detail",
   components: {
     NavBar,
+    GoodsInfo,
+  },
+  data() {
+    return {
+      detailInfo: {},
+      detailImg: {},
+      goodsInfo: [],
+    };
+  },
+  mounted() {
+    this.getDetailInfo();
+    this.getRecommend();
+  },
+  methods: {
+    async getDetailInfo() {
+      let { iid } = this.$route.query;
+      const result = await this.$API.detail.getDetailInfo(iid);
+      this.detailInfo = result.result;
+      this.detailImg = this.detailInfo.detailInfo.detailImage[0];
+    },
+    async getRecommend() {
+      const result = await this.$API.detail.getRecommend();
+      this.goodsInfo = result.data.list;
+    },
+    backPre() {
+      this.$router.push("/category");
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.detail-content {
-  height: calc(100vh - 60px - 44px);
-  overflow: hidden;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
 .detail-nav {
   background-color: var(--color-tint);
   color: #fff;
+}
+.back {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+.detail-content {
+  height: calc(100vh - 60px - 44px);
+  background: #777;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .swiper {
   width: 100%;
@@ -100,10 +149,10 @@ export default {
     width: 100%;
   }
 }
-.info {
+.goods-info {
   padding: 8px;
-  margin-top: 5px;
   color: #777;
+  background: #fff;
   .title {
     font-size: 16px;
     line-height: 20px;
@@ -142,6 +191,18 @@ export default {
       width: 12px;
       height: 12px;
     }
+  }
+}
+.content {
+  img {
+    width: 100%;
+  }
+}
+.recommend {
+  background: #fff;
+  .title {
+    font-size: 20px;
+    padding: 10px;
   }
 }
 .detail-bar {

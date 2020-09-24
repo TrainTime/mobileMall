@@ -19,21 +19,7 @@
             <span>{{ goodsItem.title }}</span>
           </li>
         </ul>
-        <ul class="right-goods">
-          <li
-            v-for="(goodsInfo, index) in categoryGoodsInfo"
-            :key="index"
-            @click="toDetail(goodsInfo.iid)"
-          >
-            <img :src="goodsInfo.img" />
-            <span>{{ goodsInfo.title }}</span>
-            <div class="info">
-              <span class="price">¥{{ goodsInfo.price }}</span>
-              <img class="icon" src="../../assets/images/common/favor.png" />
-              <span>{{ goodsInfo.cfav }}</span>
-            </div>
-          </li>
-        </ul>
+        <GoodsInfo :goodsInfo="goodsInfo"></GoodsInfo>
       </div>
     </div>
   </div>
@@ -41,17 +27,19 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import GoodsInfo from "components/goodsInfo/GoodsInfo";
 
 export default {
   name: "Category",
   components: {
     NavBar,
+    GoodsInfo,
   },
   data() {
     return {
       categoryNav: [],
       categoryGoodsItem: [],
-      categoryGoodsInfo: [],
+      goodsInfo: [],
       maitKey: "",
       miniWallkey: "",
     };
@@ -80,7 +68,7 @@ export default {
       this.$API.category
         .getCategoryGoodsInfo(this.miniWallkey)
         .then((result) => {
-          this.categoryGoodsInfo = result;
+          this.goodsInfo = result;
         });
     },
     // 左侧导航选中高亮
@@ -88,10 +76,6 @@ export default {
       this.maitKey = maitKey;
       this.miniWallkey = miniWallkey;
       this.getCategoryGoods();
-    },
-    // 跳转详情页
-    toDetail(iid) {
-      this.$router.push("/detail?iid=" + iid);
     },
   },
 };
@@ -104,7 +88,7 @@ export default {
 }
 .category-content {
   display: flex;
-  height: calc(100vh - 50px - 44px);
+  height: calc(100vh - 49px - 44px);
 }
 .category-content-left {
   width: 30%;
@@ -152,41 +136,6 @@ export default {
         text-align: center;
         font-size: 14px;
         margin: 20px 0;
-      }
-    }
-  }
-  .right-goods {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 8px;
-    li {
-      font-size: 14px;
-      width: 49%;
-      display: flex;
-      flex-direction: column;
-      img {
-        height: 183px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-      }
-      span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-    .info {
-      text-align: center;
-      margin-bottom: 10px;
-      .price {
-        color: var(--color-tint);
-      }
-      .icon {
-        width: 15px;
-        height: 15px;
-        margin: 0 5px;
-        vertical-align: bottom;
       }
     }
   }

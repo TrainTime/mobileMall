@@ -7,7 +7,7 @@ const Detail = () => import("views/detail");
 const routes = [
   {
     path: "",
-    redirect: "/detail",
+    redirect: "/home",
   },
   {
     path: "/home",
