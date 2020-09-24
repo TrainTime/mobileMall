@@ -1,6 +1,7 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物吧</div></nav-bar>
+    hjakhffffffffkjashjfkhsakjhfkjsahkdjhskjahdjksahdjhcsahfkjhkjhfukgsaujfgagbfjuasgfjstgfjasfgushfbjkxzjmnsgzujfbsjafgjsyfjau
   </div>
 </template>
 
