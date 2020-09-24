@@ -38,7 +38,7 @@
             v-for="(item, index) in keywordsList"
             :key="index"
           >
-            <img src />
+            <img :src="item.url" />
             <div>
               <span>{{ item.words }}</span>
             </div>
@@ -104,9 +104,13 @@ export default {
   },
   async mounted() {
     const result = await this.$API.home.getMultidata()
+
+    const resq = await this.$HOME.getPopular()
+    this.keywordsList =resq.data
+    console.log(resq)
     this.bannerList = result.data.banner.list
     this.recommendtList = result.data.recommend.list
-    this.keywordsList = result.data.keywords.list
+    // this.keywordsList = result.data.keywords.list
     this.getRecommend()
     // http://localhost:3000/multidata
   },

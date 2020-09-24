@@ -14,11 +14,18 @@
 
 <style scoped>
   .nav-bar {
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    z-index: 999;
     display: flex;
     line-height: 44px;
     text-align: center;
 
     box-shadow: 0 3px 9px rgba(100, 100, 100, .1);
+  }
+
+  .left, .right, .center {
+    background-color: var(--color-high-text);
   }
 
   .left,

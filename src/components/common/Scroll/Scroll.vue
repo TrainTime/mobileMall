@@ -63,7 +63,7 @@
       /** * 控制父容器高度 */
       pattern: {
         type: Object,
-        default: () => {bottom: '49px'}
+        default: () => ({bottom: '49px'})
       }
     },
     mounted() {
