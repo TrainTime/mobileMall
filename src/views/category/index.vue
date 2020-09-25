@@ -1,39 +1,49 @@
 <template>
   <div>
     <nav-bar class="category-nav"><div slot="center">商品分类</div></nav-bar>
-    <div class="category-content">
-      <ul class="category-content-left">
-        <li
-          v-for="(nav, index) in categoryNav"
-          :key="index"
-          @click="handleActive(nav.maitKey, nav.miniWallkey)"
-          :class="maitKey === nav.maitKey ? 'active' : ''"
-        >
-          {{ nav.title }}
-        </li>
-      </ul>
-      <div class="category-content-right">
-        <ul class="right-imgs">
-          <li v-for="(goodsItem, index) in categoryGoodsItem" :key="index">
-            <img :src="goodsItem.image" />
-            <span>{{ goodsItem.title }}</span>
+    <!-- <div class="category-content"> -->
+    <div class="category-left">
+      <Scroll ref="scrollLeft">
+        <ul class="category-content-left">
+          <li
+            v-for="(nav, index) in categoryNav"
+            :key="index"
+            @click="handleActive(nav.maitKey, nav.miniWallkey)"
+            :class="maitKey === nav.maitKey ? 'active' : ''"
+          >
+            {{ nav.title }}
           </li>
         </ul>
-        <GoodsInfo :goodsInfo="goodsInfo"></GoodsInfo>
-      </div>
+      </Scroll>
     </div>
+    <div class="category-right">
+      <Scroll ref="scrollRight">
+        <div class="category-content-right">
+          <ul class="right-imgs">
+            <li v-for="(goodsItem, index) in categoryGoodsItem" :key="index">
+              <img :src="goodsItem.image" />
+              <span>{{ goodsItem.title }}</span>
+            </li>
+          </ul>
+          <GoodsInfo :goodsInfo="goodsInfo"></GoodsInfo>
+        </div>
+      </Scroll>
+    </div>
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
 import GoodsInfo from "components/goodsInfo/GoodsInfo";
+import Scroll from "components/common/Scroll/Scroll";
 
 export default {
   name: "Category",
   components: {
     NavBar,
     GoodsInfo,
+    Scroll,
   },
   data() {
     return {
@@ -45,7 +55,12 @@ export default {
     };
   },
   mounted() {
-    this.getCategory();
+    this.getCategory().then(() => {
+      this.$nextTick(() => {
+        this.$refs.scrollLeft.refresh();
+        this.$refs.scrollRight.refresh();
+      });
+    });
   },
   methods: {
     async getCategory() {
@@ -55,21 +70,20 @@ export default {
       this.maitKey = this.categoryNav[0].maitKey;
       this.miniWallkey = this.categoryNav[0].miniWallkey;
       console.log(this.maitKey);
-
-      this.getCategoryGoods();
+      return this.getCategoryGoods();
     },
-    getCategoryGoods() {
+    async getCategoryGoods() {
       // 请求商品条目
       // console.log(this.maitKey);
-      this.$API.category.getCategoryGoodsItem(this.maitKey).then((result) => {
-        this.categoryGoodsItem = result.data.list;
-      });
+      const result1 = await this.$API.category.getCategoryGoodsItem(
+        this.maitKey
+      );
+      this.categoryGoodsItem = result1.data.list;
       // 请求商品信息
-      this.$API.category
-        .getCategoryGoodsInfo(this.miniWallkey)
-        .then((result) => {
-          this.goodsInfo = result;
-        });
+      const result2 = await this.$API.category.getCategoryGoodsInfo(
+        this.miniWallkey
+      );
+      this.goodsInfo = result2;
     },
     // 左侧导航选中高亮
     handleActive(maitKey, miniWallkey) {
@@ -82,6 +96,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.category-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  width: 30%;
+}
+.category-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+}
 .category-nav {
   background-color: var(--color-tint);
   color: #fff;
@@ -91,12 +119,12 @@ export default {
   height: calc(100vh - 49px - 44px);
 }
 .category-content-left {
-  width: 30%;
+  // width: 30%;
   color: #777;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  // overflow: auto;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
   li {
     height: 50px;
     font-size: 14px;
@@ -113,11 +141,12 @@ export default {
   }
 }
 .category-content-right {
-  width: 70%;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  // margin-left: 30%;
+  // width: 70%;
+  // overflow: auto;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
   .right-imgs {
     display: flex;
     flex-wrap: wrap;

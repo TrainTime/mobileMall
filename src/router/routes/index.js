@@ -3,32 +3,37 @@ const Category = () => import("views/category");
 const ShopCart = () => import("views/shopcart");
 const Profile = () => import("views/profile");
 const Detail = () => import("views/detail");
+const Register = () => import("views/register");
 
 const routes = [
   {
     path: "",
-    redirect: "/home",
+    redirect: "/register"
   },
   {
     path: "/home",
-    component: Home,
+    component: Home
   },
   {
     path: "/category",
-    component: Category,
+    component: Category
   },
   {
     path: "/shopcart",
-    component: ShopCart,
+    component: ShopCart
   },
   {
     path: "/profile",
-    component: Profile,
+    component: Profile
   },
   {
     path: "/detail",
-    component: Detail,
-  },
+    component: Detail
+  }
+  // {
+  //   path: "/register",
+  //   component: Register
+  // }
 ];
 
 export default routes;
