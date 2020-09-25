@@ -142,7 +142,7 @@ export default {
     data() {
       setTimeout(() => {
         this._initScroll();
-      }, 2000);
+      }, 3000);
     },
     methods: {
       _initScroll() {

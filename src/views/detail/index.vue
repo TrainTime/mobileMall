@@ -1,13 +1,14 @@
 <template>
   <div>
-    <nav-bar class="detail-nav"><div slot="center">商品详情</div></nav-bar>
-    <div class="back" @click="backPre">
-      <img src="~assets/images/common/back.png" alt="" />
-    </div>
-    <div class="detail-content">
-      <div class="swiper" v-if="this.detailInfo.itemInfo">
-        <img :src="this.detailInfo.itemInfo.topImages[0]" />
+    <nav-bar class="detail-nav">
+      <div slot="left" class="back" @click="backPre">
+        <img src="~assets/images/common/back.png" alt="" />
       </div>
+      <div slot="center">商品详情</div></nav-bar
+    >
+
+    <div class="detail-content">
+      <Banner :bannerList="bannerList"></Banner>
       <div class="goods-info" v-if="this.detailInfo.itemInfo">
         <span class="title">{{ this.detailInfo.itemInfo.title }}</span>
         <div class="price">
@@ -83,11 +84,14 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import Banner from "../../components/banner";
 import GoodsInfo from "components/goodsInfo/GoodsInfo";
+
 export default {
   name: "Detail",
   components: {
     NavBar,
+    Banner,
     GoodsInfo,
   },
   data() {
@@ -95,6 +99,7 @@ export default {
       detailInfo: {},
       detailImg: {},
       goodsInfo: [],
+      bannerList: [],
     };
   },
   mounted() {
@@ -107,6 +112,8 @@ export default {
       const result = await this.$API.detail.getDetailInfo(iid);
       this.detailInfo = result.result;
       this.detailImg = this.detailInfo.detailInfo.detailImage[0];
+      this.bannerList = this.detailInfo.itemInfo.topImages;
+      console.log(this.bannerList);
     },
     async getRecommend() {
       const result = await this.$API.detail.getRecommend();
@@ -126,7 +133,7 @@ export default {
 }
 .back {
   position: absolute;
-  top: 12px;
+  top: 5px;
   left: 10px;
   img {
     width: 20px;
@@ -141,13 +148,10 @@ export default {
     display: none;
   }
 }
-.swiper {
+.swiper-container {
   width: 100%;
   height: 400px;
-  overflow: hidden;
-  img {
-    width: 100%;
-  }
+  --swiper-pagination-color: #f55777;
 }
 .goods-info {
   padding: 8px;

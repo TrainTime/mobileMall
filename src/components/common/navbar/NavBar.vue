@@ -7,33 +7,34 @@
 </template>
 
 <script>
-  export default {
-    name: "NavBar"
-  }
+export default {
+  name: "NavBar",
+};
 </script>
 
 <style scoped>
-  .nav-bar {
-    position: absolute;
-    top: 0; right: 0; left: 0;
-    z-index: 999;
-    display: flex;
-    line-height: 44px;
-    text-align: center;
+.nav-bar {
+  position: relative;
+  z-index: 999;
+  display: flex;
+  line-height: 44px;
+  text-align: center;
 
-    box-shadow: 0 3px 9px rgba(100, 100, 100, .1);
-  }
+  box-shadow: 0 3px 9px rgba(100, 100, 100, 0.1);
+}
 
-  .left, .right, .center {
-    background-color: var(--color-high-text);
-  }
+.left,
+.right,
+.center {
+  background-color: var(--color-high-text);
+}
 
-  .left,
-  .right {
-    width: 60px;
-  }
+.left,
+.right {
+  width: 60px;
+}
 
-  .center {
-    flex: 1;
-  }
+.center {
+  flex: 1;
+}
 </style>

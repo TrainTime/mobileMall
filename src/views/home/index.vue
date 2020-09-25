@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物吧</div>
     </nav-bar>
-    <Scroll>
+    <Scroll ref="scroll">
       <div class="other-warp">
         <!-- 轮播图 -->
         <!-- <div class="swiper-container">
@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar'
-import Banner from '../../components/banner'
-import Scroll from '../../components/common/Scroll/Scroll'
+import NavBar from "components/common/navbar/NavBar";
+import Banner from "../../components/banner";
+import Scroll from "../../components/common/Scroll/Scroll";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       bannerList: [],
@@ -92,10 +92,10 @@ export default {
       keywordsList: [],
       goodsList: [],
       navList: [],
-      type: 'pop',
+      type: "pop",
       page: 1,
       currentIndex: 0,
-    }
+    };
   },
   components: {
     NavBar,
@@ -103,46 +103,51 @@ export default {
     Scroll,
   },
   async mounted() {
-    const result = await this.$API.home.getMultidata()
+    const result = await this.$API.home.getMultidata();
 
-    const resq = await this.$HOME.getPopular()
-    this.keywordsList =resq.data
-    console.log(resq)
-    this.bannerList = result.data.banner.list
-    this.recommendtList = result.data.recommend.list
+    // const resq = await this.$HOME.getPopular()
+    // this.keywordsList =resq.data
+    // console.log(resq);
+    this.bannerList = result.data.banner.list;
+    this.recommendtList = result.data.recommend.list;
     // this.keywordsList = result.data.keywords.list
-    this.getRecommend()
+    this.getRecommend();
     // http://localhost:3000/multidata
   },
   methods: {
     //点击切换底部数据
     changeIndex(index) {
-      this.currentIndex = index
+      this.currentIndex = index;
       if (index === 0) {
-        this.goodsList = []
-        this.type = 'pop'
-        this.getRecommend()
+        this.goodsList = [];
+        this.type = "pop";
+        this.getRecommend();
       } else if (index === 1) {
-        this.goodsList = []
-        this.type = 'sell'
-        this.getRecommend()
+        this.goodsList = [];
+        this.type = "sell";
+        this.getRecommend();
       } else if (index === 2) {
-        this.goodsList = []
-        this.type = 'new'
-        this.getRecommend()
+        this.goodsList = [];
+        this.type = "new";
+        this.getRecommend();
       }
     },
     //获取第一页数据当默认值
     async getRecommend() {
-      let { type, page } = this
-      let data = { type, page }
-      const res = await this.$API.home.getRecommendData(data)
+      let { type, page } = this;
+      let data = { type, page };
+      const res = await this.$API.home.getRecommendData(data);
 
-      this.goodsList = res.data.list
-      this.navList = res.data.filter.list
+      this.goodsList = res.data.list;
+      this.navList = res.data.filter.list;
     },
   },
-}
+  // watch: {
+  //   goodsList() {
+  //     this.$refs.scroll.refresh();
+  //   },
+  // },
+};
 </script>
 
 <style scoped lang="less">
@@ -159,17 +164,13 @@ export default {
     // height: 100%;
     color: #fff;
   }
+  .swiper-container {
+    width: 100%;
+    height: 180px;
+    --swiper-pagination-color: #f55777;
+  }
   .other-warp {
     height: 100%;
-    .swiper-container {
-      width: 100%;
-      height: 160px;
-      margin-bottom: 10px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
     .activity {
       background-color: var(--color-background);
       width: 100%;
