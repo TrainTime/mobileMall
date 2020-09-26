@@ -6,7 +6,6 @@
       </div>
       <div slot="center">商品详情</div></nav-bar
     >
-
     <Scroll ref="scroll" :pattern="{ bottom: '60px' }">
       <div class="detail-content">
         <Banner :bannerList="bannerList"></Banner>
@@ -79,7 +78,7 @@
         </div>
       </div>
       <div class="detail-bar-right">
-        <div class="add-cart">加入购物车</div>
+        <div class="add-cart" @click="addToShopCart">加入购物车</div>
         <div class="shop">购买</div>
       </div>
     </div>
@@ -102,6 +101,7 @@ export default {
   },
   data() {
     return {
+      detail: {},
       detailInfo: {},
       detailImg: {},
       goodsInfo: [],
@@ -111,17 +111,19 @@ export default {
   mounted() {
     this.getDetailInfo();
     this.getRecommend().then(() => {
-      this.$refs.scroll.refresh();
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
     });
   },
   methods: {
     async getDetailInfo() {
       let { iid } = this.$route.query;
       const result = await this.$API.detail.getDetailInfo(iid);
+      this.detail = result;
       this.detailInfo = result.result;
       this.detailImg = this.detailInfo.detailInfo.detailImage[0];
       this.bannerList = this.detailInfo.itemInfo.topImages;
-      console.log(this.bannerList);
     },
     async getRecommend() {
       const result = await this.$API.detail.getRecommend();
@@ -129,6 +131,16 @@ export default {
     },
     backPre() {
       this.$router.push("/category");
+    },
+    addToShopCart() {
+      let goods = {
+        iid: this.detail.iid,
+        imageURL: this.bannerList[0],
+        title: this.detailInfo.itemInfo.title,
+        desc: this.detailInfo.itemInfo.desc,
+        price: this.detailInfo.itemInfo.highNowPrice,
+      };
+      this.$store.dispatch("addToShopCart", goods);
     },
   },
 };

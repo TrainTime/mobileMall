@@ -3,12 +3,11 @@ const Category = () => import("views/category");
 const ShopCart = () => import("views/shopcart");
 const Profile = () => import("views/profile");
 const Detail = () => import("views/detail");
-const Register = () => import("views/register");
 
 const routes = [
   {
     path: "",
-    redirect: "/register"
+    redirect: "/home"
   },
   {
     path: "/home",
@@ -30,10 +29,6 @@ const routes = [
     path: "/detail",
     component: Detail
   }
-  // {
-  //   path: "/register",
-  //   component: Register
-  // }
 ];
 
 export default routes;

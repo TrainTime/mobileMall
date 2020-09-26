@@ -111,7 +111,11 @@ export default {
     this.bannerList = result.data.banner.list;
     this.recommendtList = result.data.recommend.list;
     // this.keywordsList = result.data.keywords.list
-    this.getRecommend();
+    this.getRecommend().then(() => {
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
+    });
     // http://localhost:3000/multidata
   },
   methods: {

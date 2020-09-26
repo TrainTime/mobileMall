@@ -100,7 +100,7 @@ export default {
   position: absolute;
   top: 0;
   bottom: 0;
-
+  left: 0;
   width: 30%;
 }
 .category-right {
@@ -119,12 +119,7 @@ export default {
   height: calc(100vh - 49px - 44px);
 }
 .category-content-left {
-  // width: 30%;
   color: #777;
-  // overflow: auto;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
   li {
     height: 50px;
     font-size: 14px;
@@ -141,12 +136,6 @@ export default {
   }
 }
 .category-content-right {
-  // margin-left: 30%;
-  // width: 70%;
-  // overflow: auto;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
   .right-imgs {
     display: flex;
     flex-wrap: wrap;
