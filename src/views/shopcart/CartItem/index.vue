@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cart-item" v-for="(goods, index) in shopCartList" :key="index">
-      <div class="check-icon" @click="changeActive(goods.iid)">
+      <div class="check-icon" @click="changeIsChecked(goods.iid)">
         <img
           v-show="!goods.isChecked"
           src="~assets/images/shopcart/checked.png"
@@ -39,9 +39,11 @@ export default {
   name: "CartItem",
   props: ["shopCartList"],
   methods: {
-    changeActive(iid) {
+    // 单选
+    changeIsChecked(iid) {
       this.$store.dispatch("updateIsChecked", iid);
     },
+    // 数量增减
     changeCount(iid, flag) {
       this.$store.dispatch("updateCount", { iid, flag });
     }

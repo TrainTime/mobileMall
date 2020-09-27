@@ -25,6 +25,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Account",
   methods: {
+    // 全选
     changeAllChecked() {
       this.$store.dispatch("changeAllChecked", this.isAllChecked);
     }

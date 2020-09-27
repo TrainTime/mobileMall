@@ -25,7 +25,7 @@
               <span>{{ goodsItem.title }}</span>
             </li>
           </ul>
-          <GoodsInfo :goodsInfo="goodsInfo"></GoodsInfo>
+          <GoodsInfo @iamgeLoad="imageLoad" :goodsInfo="goodsInfo"></GoodsInfo>
         </div>
       </Scroll>
     </div>
@@ -43,7 +43,7 @@ export default {
   components: {
     NavBar,
     GoodsInfo,
-    Scroll,
+    Scroll
   },
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
       categoryGoodsItem: [],
       goodsInfo: [],
       maitKey: "",
-      miniWallkey: "",
+      miniWallkey: ""
     };
   },
   mounted() {
@@ -91,7 +91,23 @@ export default {
       this.miniWallkey = miniWallkey;
       this.getCategoryGoods();
     },
-  },
+    // 数据防抖
+    debounce(func, wait) {
+      let timeout;
+      if (timeout) clearTimeout(timeout);
+      return function(...args) {
+        let context = this;
+        timeout = setTimeout(() => {
+          func.apply(context, args);
+        }, wait);
+      };
+    },
+    // 监听图片加载
+    imageLoad() {
+      let refresh = this.$refs.scrollRight.refresh;
+      this.debounce(refresh, 34);
+    }
+  }
 };
 </script>
 

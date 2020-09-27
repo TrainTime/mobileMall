@@ -8,6 +8,7 @@
       <img
         :src="good.img ? good.img : good.image"
         :class="good.img ? 'category' : 'detail'"
+        @load="imgLoad"
       />
       <span>{{ good.title }}</span>
       <div class="info">
@@ -28,7 +29,10 @@ export default {
     toDetail(iid) {
       this.$router.push("/detail?iid=" + iid);
     },
-  },
+    imgLoad() {
+      this.$emit("iamgeLoad");
+    }
+  }
 };
 </script>
 

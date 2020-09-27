@@ -11,6 +11,7 @@ const mutations = {
 };
 
 const actions = {
+  // 加入购物车
   addToShopCart({ commit, state }, goods) {
     let shopCartList = [...state.shopCartList];
     let oldGoods = shopCartList.find(item => item.iid === goods.iid);
@@ -23,6 +24,7 @@ const actions = {
     }
     commit("ADDTOSHOPCART", shopCartList);
   },
+  // 单选状态更新
   updateIsChecked({ commit, state }, iid) {
     let shopCartList = [...state.shopCartList];
     shopCartList.forEach(item => {
@@ -32,6 +34,7 @@ const actions = {
     });
     commit("ADDTOSHOPCART", shopCartList);
   },
+  // 商品数量更新
   updateCount({ commit, state }, { iid, flag }) {
     let shopCartList = [...state.shopCartList];
     console.log(iid, flag);
@@ -45,6 +48,7 @@ const actions = {
     });
     commit("ADDTOSHOPCART", shopCartList);
   },
+  // 全选状态更新
   changeAllChecked({ commit, state }, isAllChecked) {
     let shopCartList = [...state.shopCartList];
     shopCartList.forEach(item => (item.isChecked = !isAllChecked));
@@ -53,6 +57,7 @@ const actions = {
 };
 
 const getters = {
+  // 全选状态
   isAllChecked(state) {
     if (state.shopCartList.length) {
       return state.shopCartList.every(item => item.isChecked === true);
@@ -60,10 +65,12 @@ const getters = {
       return false;
     }
   },
+  // 总数
   total(state) {
     let totalList = state.shopCartList.filter(item => item.isChecked === true);
     return totalList.length;
   },
+  // 总价
   totalPrice() {
     let totalList = state.shopCartList.filter(item => item.isChecked === true);
     let totalPrice = 0;
