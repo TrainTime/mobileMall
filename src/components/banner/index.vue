@@ -26,19 +26,17 @@ export default {
   },
   methods: {
     initSwiper() {
-      Vue.nextTick(() => {
-        new Swiper(".swiper-container", {
-          autoplay: true,
-          loop: true, // 循环模式选项
-          pagination: {
-            el: ".swiper-pagination",
-          },
-          observer: true, //修改swiper自己或子元素时，自动初始化swiper
-          observeParents: true, //修改swiper的父元素时，自动初始化swiper
-        });
+      new Swiper(".swiper-container", {
+        loop: true, // 循环模式选项
+        autoplay: true,
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true //修改swiper的父元素时，自动初始化swiper
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

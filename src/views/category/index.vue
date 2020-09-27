@@ -4,11 +4,12 @@
     <!-- <div class="category-content"> -->
     <div class="category-left">
       <Scroll ref="scrollLeft">
-        <ul class="category-content-left">
+        <ul class="category-content-left" @click="handleActive">
           <li
             v-for="(nav, index) in categoryNav"
             :key="index"
-            @click="handleActive(nav.maitKey, nav.miniWallkey)"
+            :data-maitkey="nav.maitKey"
+            :data-miniwallkey="nav.miniWallkey"
             :class="maitKey === nav.maitKey ? 'active' : ''"
           >
             {{ nav.title }}
@@ -86,9 +87,10 @@ export default {
       this.goodsInfo = result2;
     },
     // 左侧导航选中高亮
-    handleActive(maitKey, miniWallkey) {
-      this.maitKey = maitKey;
-      this.miniWallkey = miniWallkey;
+    handleActive(event) {
+      const { maitkey, miniwallkey } = event.target.dataset;
+      this.maitKey = maitkey;
+      this.miniWallkey = miniwallkey;
       this.getCategoryGoods();
     },
     // 数据防抖

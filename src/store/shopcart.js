@@ -37,7 +37,7 @@ const actions = {
   // 商品数量更新
   updateCount({ commit, state }, { iid, flag }) {
     let shopCartList = [...state.shopCartList];
-    console.log(iid, flag);
+    // console.log(iid, flag);
     shopCartList.forEach(item => {
       if (item.iid === iid) {
         item.count += flag;
